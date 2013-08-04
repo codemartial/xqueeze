@@ -1,0 +1,76 @@
+2003-02-07 15:52  tnhashmi
+
+	* Parser/parser.C: Added file description for doxygen
+
+2003-02-07 14:59  tnhashmi
+
+	* headers/writer.h: fixed typo in processingInstruction declaration
+
+2003-02-06 15:18  tnhashmi
+
+	* Writer/writer.C: Forgot to check for elements_to_close=0 in last
+	revision
+
+2003-02-06 14:39  tnhashmi
+
+	* test/q.log: What's a LaTeX log doing here?
+
+2003-02-06 13:46  tnhashmi
+
+	* Writer/writer.C: Removed redundant while loop in
+	closePendingElements
+
+2003-02-05 18:47  tnhashmi
+
+	* Writer/writer.C: corrected setting of start_tag and ee_start_tag
+	in startElement (not that it mattered ;-))
+
+2003-02-04 12:15  tnhashmi
+
+	* test/a.out: [no log message]
+
+2003-02-04 12:12  tnhashmi
+
+	* test/test.dtd, xqAGenerator/xqagenerator.C: Improved handling of
+	unknown DTD constructs
+
+2003-02-01 11:56  tnhashmi
+
+	* Makefile: Fixed no-symlink symptoms in target "install" Added
+	target "uninstall"
+
+2003-01-31 22:22  tnhashmi
+
+	* Parser/parser.C: Removed code for processing '<' in CDATA section
+
+2003-01-31 18:27  tnhashmi
+
+	* Writer/writer.C: Updated doxygen comment for xqML::Writer::prolog
+	for xqML version 0.2
+
+2003-01-31 17:25  tnhashmi
+
+	* Doxyfile, Makefile, Parser/Makefile, Parser/mapping.C,
+	Parser/parser.C, Parser/parser_impl.h, xqAGenerator/Doxyfile,
+	xqAGenerator/Makefile, Writer/Makefile, Writer/mapping.C,
+	Writer/writer.C, Writer/writer_impl.h, test/Makefile, test/a.out,
+	test/parser_test.C, test/q.log, test/test.dtd, test/writer_test.C,
+	test/xqagen_test.C, xqAGenerator/xhtml1-transitional.dtd,
+	xqAGenerator/xqagenerator.C, xqAGenerator/xqagenerator_impl.h,
+	common/Makefile, common/xqmlsymbol.C, headers/exceptions.h,
+	headers/parser.h, headers/writer.h, headers/xqagenerator.h,
+	headers/xqmlsymbol.h: The Genesis :-)
+
+2003-01-31 17:25  tnhashmi
+
+	* Doxyfile, Makefile, Parser/Makefile, Parser/mapping.C,
+	Parser/parser.C, Parser/parser_impl.h, xqAGenerator/Doxyfile,
+	xqAGenerator/Makefile, Writer/Makefile, Writer/mapping.C,
+	Writer/writer.C, Writer/writer_impl.h, test/Makefile, test/a.out,
+	test/parser_test.C, test/q.log, test/test.dtd, test/writer_test.C,
+	test/xqagen_test.C, xqAGenerator/xhtml1-transitional.dtd,
+	xqAGenerator/xqagenerator.C, xqAGenerator/xqagenerator_impl.h,
+	common/Makefile, common/xqmlsymbol.C, headers/exceptions.h,
+	headers/parser.h, headers/writer.h, headers/xqagenerator.h,
+	headers/xqmlsymbol.h: Initial revision
+

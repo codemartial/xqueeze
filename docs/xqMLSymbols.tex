@@ -1,0 +1,55 @@
+%% Author: Tahir Hashmi
+%% 
+%% Copyright (C) 2002 2003, Xqueeze Developers
+%% 
+%% This file is part of Xqueeze Documentation
+%% 
+%% Permission is granted to copy, distribute and/or modify this
+%% document under the terms of the GNU Free Documentation License,
+%% Version 1.2 or any later version published by the Free Software
+%% Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+%% Back-Cover Texts. A copy of the license is included in LaTeX source
+%% format in the file entitled ``fdl.tex''.
+
+\textit{xqML Symbols} are octect sequences that represent unsigned
+integers written in Big-Endian (most significant byte first)
+order. Additionally, the least significant bit of each octet of a
+symbol, except the last one, should be one. For example, the integer
+256 can be a valid xqML Symbol since when written in MSB order, its
+bit pattern is [00000001 00000000]. Thus the least significant bit of
+each octet in the symbol acts as a continuation flag. A 1 indicates
+that the next octet is a part of the symbol, a 0 indicates the end.
+
+It is trivially evident that all xqML Symbols must be even
+numbers. Additionally, one bit of each octet is rendered unusable
+since it acts as a continuation flag. 16 bit xqML Symbols can
+represent 16384 different identifiers while 32 bit ones can represent
+over 268 million different identifiers. A conforming implementation is
+required to support atleast 16 bit long symbols.
+
+xqML Symbols start from 0x02 (decimal 2) and symbols up to 0xFE
+(decimal 254) are reserved for special purposes. Higher values are
+available for generating associations using the Xqueeze Association
+algorithm.
+
+A special type of xqML Symbols -- {\it VUint} -- is defined to
+represent variable length unsigned integral values that can
+represent arbitrarily large values. The difference in interpretation
+of the values of normal xqML Symbols and VUints is that the
+continuation bits do not contribute to the value of the integer. For
+example, while the xqML Symbol with decimal value 256 will be
+represented as \verb|00000001 00000000|, a VUint will be represented
+as \verb|00000101 00000000|. If we strip the continuation bits from
+the latter, we get \verb|0000010 0000000| which represents decimal
+256.
+
+\subsubsection{Serialization}
+
+xqML Symbols are serialized in Big-Endian (most significant byte
+first) order and are represented in only as many octets (8-bit groups)
+as required, irrespective of the encoding used for character
+data. As an exception, some of the symbols should be serialized as
+characters whose code points equal the value of the corresponding
+symbol. These are the symbols with values 0x02, 0x06, 0x14, 0x16,
+0x18, 0x1A, 0x1C and 0x1E.
+ 

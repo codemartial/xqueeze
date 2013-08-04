@@ -1,0 +1,71 @@
+%% Author: Tahir Hashmi
+%% 
+%% Copyright (C) 2002 2003, Xqueeze Developers
+%% 
+%% This file is part of Xqueeze Documentation
+%% 
+%% Permission is granted to copy, distribute and/or modify this
+%% document under the terms of the GNU Free Documentation License,
+%% Version 1.2 or any later version published by the Free Software
+%% Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+%% Back-Cover Texts. A copy of the license is included in LaTeX source
+%% format in the file entitled ``fdl.tex''.
+
+\subsubsection{Reserved Symbols}
+
+xqML Symbols with values between 0x02 and 0xFE (both inclusive) are
+reserved for grammar specific
+purposes. Table~\ref{table:reservedSymbols} lists the used xqML
+Symbols in xqML revision \xqMLver{} and their purpose. Entries in
+\textit{italics} are productions from the xqML grammar listed in \S
+\ref{section:xqml-gram} and the respective production numbers are
+provided in brackets.
+
+\begin{table}[!hbp]
+\begin{tabular}{|c|c|l|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Symbol Value}} &
+\multicolumn{1}{|c|}{\textbf{Purpose}} \\
+\cline{1-2} \textbf{Hex} & \textbf{Dec} & \\ \hline \hline
+
+0x02 & 002 &   \textit{Fmt} (\ref{pr:Fmt})\\ \hline
+0x04 & 004 &   \\ \hline
+0x06 & 006 &   \textit{Fmt} (\ref{pr:Fmt})\\ \hline
+%% 0x08 & 008 &   \\ \hline
+%% 0x0A & 010 &   \\ \hline
+%% 0x0C & 012 &   \\ \hline
+%% 0x0E & 014 &   \\ \hline
+%% 0x10 & 016 &   \\ \hline
+%% 0x12 & 018 &   \\ \hline
+\hline % To graphically signify a break in numbering
+0x14 & 020 &   \textit{ATAttribute} (\ref{pr:ATAttribute})\\ \hline
+0x16 & 022 &   \textit{ATAttribute} (\ref{pr:ATAttribute})\\ \hline
+0x18 & 024 &   \textit{APAttribute} (\ref{pr:APAttribute})\\ \hline
+0x1A & 026 &   \textit{APAttribute} (\ref{pr:APAttribute})\\ \hline
+0x1C & 028 &   \textit{NSDecl} (\ref{pr:NSDecl})\\ \hline
+0x1E & 030 &   Markup flag\\ \hline
+0x20 & 032 &   \textit{PI} (\ref{pr:PI})\\ \hline
+0x22 & 034 &   \textit{EntityRef} (\ref{pr:EntityRef})\\ \hline
+%% 0x24 & 036 &   \textit{EntityRef} (\ref{pr:EntityRef})\\ \hline
+0x24 & 036 &   \\ \hline
+0x26 & 038 &   \textit{CharRef} (\ref{pr:CharRef})\\ \hline
+0x28 & 040 &   \textit{RegId} (\ref{pr:RegId})\\ \hline
+0x2A & 042 &   \textit{RegId} (\ref{pr:RegId})\\ \hline
+0x2C & 044 &   \textit{doctypedecl} (\ref{pr:doctypedecl})\\ \hline
+0x2E & 046 &   \textit{DTDSect} (\ref{pr:DTDSect})\\ \hline
+0x30 & 048 &   \textit{ETag} (\ref{pr:ETag})\\ \hline
+0x32 & 050 &   \textit{ELFlags} (\ref{pr:ELFlags})\\ \hline
+0x34 & 052 &   \textit{ELFlags} (\ref{pr:ELFlags})\\ \hline
+0x36 & 054 &   \textit{ELFlags} (\ref{pr:ELFlags})\\ \hline
+0x38 & 056 &   \textit{ELFlags} (\ref{pr:ELFlags})\\ \hline
+0x3A & 058 &   \textit{ELFlags} (\ref{pr:ELFlags})\\ \hline
+0x3C & 060 &   \textit{ELFlags} (\ref{pr:ELFlags})\\ \hline
+0x3E & 062 &   \textit{ELFlags} (\ref{pr:ELFlags})\\ \hline
+0x40 & 064 &   xqA end marker\\ \hline
+%% \hline
+%% \multicolumn{3}{|l|}{The remaining symbols are unutilized so far} \\
+%% \hline
+\end{tabular}
+\caption{Table of Reserved Symbols}
+\label{table:reservedSymbols}
+\end{table}

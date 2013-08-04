@@ -1,0 +1,70 @@
+%% Author: Tahir Hashmi
+%% 
+%% Copyright (C) 2002 2003, Xqueeze Developers
+%% 
+%% This file is part of Xqueeze Documentation
+%% 
+%% Permission is granted to copy, distribute and/or modify this
+%% document under the terms of the GNU Free Documentation License,
+%% Version 1.2 or any later version published by the Free Software
+%% Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+%% Back-Cover Texts. A copy of the license is included in LaTeX source
+%% format in the file entitled ``fdl.tex''.
+
+This is the allgorithm that is used to map the identifiers found in a
+DTD/Schema to xqML Symbols. The steps of the algorithm are:
+\begin{enumerate}
+\item collect all Element identifiers
+\item collect all Attribute identifiers
+\item collect all Enumerated Attribute Value identifiers
+\item collect all Entity References together
+\item merge the above collections, discarding duplicates
+\item sort the merged collection lexically on the values of unicode
+  code-points
+\item assign symbols starting from 256 in ascending order to the
+  identifiers
+\end{enumerate}
+
+This simple algorithm assures that the assignments would remain the
+same even if a particular specification (DTD/Schema) has slight
+variations in the way it's written in the generator's and consumer's
+copies, as long as both define the same vocabulary. Note that it is
+not dependent on the structure of the document.
+
+\subsubsection{Dynamic Associations} \label{section:DynamicAssoc}
+
+Xqueeze allows for associating symbols to identifiers within a running
+document through {\it Dynamic Associations}. This allows for
+generation of xqML documents without the knowledge of whole or part of
+the schema. Dynamic Associations cover elements, attributes and entity
+references. Attribute values are not covered, and should be written as
+string literals.
+
+For assigning symbols to dynamically declared identifiers, the
+processor must maintain a separate lookup table for each namespace
+with which one or more dynamic identifier declarations are
+associated. The namespace with which to associate a dynamically
+declared identifier is determined by these rules:
+\begin{enumerate}
+\item Declarations appearing ahead of an element are associated with
+  the namespace that the element is associated with
+\item Declarations with explicit namespace prefixes are associated
+  with the namespace denoted by the prefix, provided the prefix is
+  valid and legal
+\end{enumerate}
+
+While registering identifiers dynamically, duplicate declarations
+within the same namespace are discarded. This means that identifiers that
+already exist in a given namespace would not be
+re-assigned.\footnote{Therefore it is a good practice to declare
+  dynamic identifiers in separate namespace(s) while mixing with
+  various vocabularies.} Symbols are assigned to identifiers in the
+order of their appearance in the document, starting from the first
+unused symbol in the Association corresponding to the namespace in
+context.
+
+Portability of such associations is limited to the document that
+contained the declarations and parts of the document using dynamically
+assigned symbols can't be used elsewhere, without translation and
+re-assigning of symbols. Nor can the document be safely modified
+without preserving the declarations.

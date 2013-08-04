@@ -1,9 +1,4 @@
-Xqueeze
-=======
-
-Xqueeze: Compact XML Alternative
-
-              -=[Xqueeze Reference Implementation 0.3]=-
+              -=[Xqueeze Reference Implementation 0.2]=-
 
 ABOUT THIS PACKAGE
       Xqueeze Reference Implementation (C++) is a C++ library that
@@ -19,7 +14,7 @@ DOCUMENTATION
       Documentation for this package is available at
       http://xqueeze.sourceforge.net/docs.shtml. Additionally, you may
       obtain source documentation by running "make docs" in the
-      src directory of the package (requires Doxygen)
+      root directory of the package (requires Doxygen)
 
 MAILING LIST
       For further correspondence you are invited to join the
@@ -29,10 +24,3 @@ MAILING LIST
 Thanks for your interest in Xqueeze :-)
 
       - Tahir Hashmi
-      <tnhashmi@users.sourceforge.net>
-
-NOTE:
-                                                                                                                                                               
-This build is strictly a testing release. Informative files other than this and
-README would most probably be outdated. Run "make" in src/ to build.
-

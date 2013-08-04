@@ -1,0 +1,28 @@
+%% Author: Tahir Hashmi
+%% 
+%% Copyright (C) 2002 - 2004, Xqueeze Developers
+%% 
+%% This file is part of Xqueeze Documentation
+%% 
+%% Permission is granted to copy, distribute and/or modify this
+%% document under the terms of the GNU Free Documentation License,
+%% Version 1.2 or any later version published by the Free Software
+%% Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+%% Back-Cover Texts. A copy of the license is included in LaTeX source
+%% format in the file entitled ``fdl.tex''.
+
+Xqueeze associations are represented in a format that itself is quite
+compact and uses xqML Symbols themselves. The specification begins
+with an optional prolog whose format resembles that of an xqML
+\textit{PI} (Processing Instruction): \\
+\('\{0x1E\}\{0x20\}xqa\{0x1E\}'\;Char*\;'\{0x1E\}' \)
+
+Here, \textit{Char*} may contain the identification string for the
+document type. The prolog is followed by individual entries for
+identifiers.
+
+Individual entries are listed as `\{0x1E\}', followed by a symbol,
+followed by a string that the symbol represents. The end of
+specifications is denoted by the sequence `\{0x1E\}\{0x40\}'. This
+structure enables inline specification of the symbols associations, if
+required by a document.

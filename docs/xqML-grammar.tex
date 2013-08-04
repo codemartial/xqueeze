@@ -1,0 +1,245 @@
+%% Author: Tahir Hashmi
+%% 
+%% Copyright (C) 2002 2003, Xqueeze Developers
+%% 
+%% This file is part of Xqueeze Documentation
+%% 
+%% Permission is granted to copy, distribute and/or modify this
+%% document under the terms of the GNU Free Documentation License,
+%% Version 1.2 or any later version published by the Free Software
+%% Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+%% Back-Cover Texts. A copy of the license is included in LaTeX source
+%% format in the file entitled ``fdl.tex''.
+
+\subsubsection{Terminals}
+\begin{itemize}
+\item \textit{Figures enclosed within braces ($\{\}$)} are hex codes for the value
+  of an xqML Symbol that should occur within.
+\item \textit{Rev} is an octet to be interpreted as an unsigned integer.
+\item \textit{xqA} is the inline Xqueeze Association with prolog
+  (see \S{} \ref{section:xqa-fmt}).
+\item \textit{ELSymbol}, \textit{ATSymbol}, \textit{APSymbol},
+  \textit{VASymbol} and \textit{ENSymbol} are all xqML symbols derived
+  from an Xqueeze Association to represent the vocabulary of an XML
+  document type.
+\item \textit{NSSymbol} is an xqML Symbol of the type ``namespace prefix''
+  (has a document-specific value).
+\item \textit{ElementsToClose} is an octet to be interpreted as an unsigned
+  integer.
+\item \textit{VUint} is a special type of xqML Symbols that represents
+  Variable-length Unsigned integers (see \S{} \ref{section:xqMLSymbols}).
+\end{itemize}
+
+\subsubsection{Productions}
+\begin{enumerate}
+\item \label{pr:document} \(document\;::=\;prolog\;element\;PI* \)
+
+Every xqML document must match the above production. Thus,
+\textit{document} is the starting symbol.
+
+\item \label{pr:prolog} \(prolog\;::=\;[^\wedge\{0x1E\}]\!*\;xqMLDecl\;PI\!*\;(doctypedecl\;PI*)? \)
+
+The \textit{prolog} of an xqML document can contain anything upto the
+first occurrence of xqML Symbol \{0x1E\}.
+
+\item \label{pr:xqMLDecl} \(xqMLDecl\;::=\;'\{0x1E\}'\;Fmt\;Rev\;Char* \)
+
+Every xqML document must declare what it is (xqML), its binary format
+and the version of its encoding. {\it Rev} is an octet that represents
+the revision number of the xqML encoding used (see the change in \S{}
+\ref{subsubsection:changesRev4}). This octet should be interpreted as
+an unsigned integer.
+
+\item \label{pr:Fmt} \(Fmt\;::=\;'\{0x00\}\{0x02\}'\;|\;'\{0x06\}' \)
+
+Format is a sequence that informs the parser whether the stream is
+encoded in 8-bit format (like UTF-8) or a 16-bit format encoding (like
+UTF-16). Note that this is not entirely dependent on character
+encodings since there may be multiple character encodings in each
+format. For example, the ISO-8859 family of encodings is 8-bit.
+
+As an example, the xqML counterpart of the XML declaration: 
+\begin{center} \verb|<?xml version="1.0" encoding="UTF-8"?>| \end{center}
+looks like:
+\begin{center} \verb*|    UTF-8| \end{center}
+where \verb*| | 
+is a visual representation of an xqML Symbol. The symbols in the above
+example are 0x1E, 0x00, 0x02, and {\it Rev} -- in that sequence.
+Each xqML revision number corresponds to a specific XML version
+number. The special attribute ``standalone'' is not written and is
+always assumed to be ``no''.
+
+\item \label{pr:doctypedecl} \(doctypedecl\;::=\;('\{0x1E\}\{0x2C\}'\;DoctypeName)\;|\;xqA\;|\;DTDSect \)
+
+An xqML document may declare its document type in one of three ways:
+\begin{enumerate}
+\item Declare a \textit{DoctypeName} (production
+\ref{pr:DoctypeName}) that identifies an external xqA specification
+\item Include an xqA specification (including prolog) inline
+\item Include a DTD inline in a \textit{DTDSect} (production
+\ref{pr:DTDSect})
+\end{enumerate}
+
+\item \label{pr:DoctypeName} \(DoctypeName\;::=\;Char* \)
+
+\textit{DoctypeName} should be a valid URI from which an xqA
+specification may be retrievable. However, the parser is not
+responsible for checking the validity of a \textit{DoctypeName}.
+
+\item \label{pr:DTDSect} \(DTDSect\;::=\;'\{0x1E\}\{0x2E\}'\;Char* \)
+
+\textit{DTDSect} contains an internal DTD in the format specified in
+XML 1.0 specification, including the \texttt{DOCTYPE} tag. An xqML
+parser must be capable of generating an xqA specification out of the
+DTD but is not always required to do so.
+
+\item \label{pr:element} \(element\;::=\;NSDecl\!*\;RegId\!*\;STag\;(content\;ETag?)? \)
+
+This corresponds to an XML Element. The element must have a start tag
+\textit{STag}. The start tag also contains an indication of whether
+the element is empty or not. If the element is not empty, it would
+also contain \textit{content} and a closing tag.  The closing tag
+\textit{ETag} is optional since several consecutive closing tags are
+combined into one in xqML.
+
+\item \label{pr:NSDecl} \(NSDecl\;::=\;'\{0x1E\}\{0x1C\}'\;Char*\;'\{0x1E\}'\;Char* \)
+
+These are the xqML equivalents of xmlns declarations in XML. For
+example, the declaration: \\
+\verb|xmlns:xsl="http://www.w3.org/1999/XSL/Transform"| \\
+would be encoded as:
+\begin{center} \verb*|  xsl http://www.w3.org/1999/XSL/Transform| \end{center}
+There may be a null string instead of ``xsl'' in the above example.
+
+\item \label{pr:RegId} \(RegId\;::=\;'\{0x1E\}'\;('\{0x2A\}'\;|\;('\{0x28\}'\;NSSymbol))\;Char\!* \)
+
+This production corresponds to an identifier registration in the
+Dynamic Association mapping of the document (see
+\S{}\ref{section:DynamicAssoc}). The string at the end of this
+production is taken as the identifier to be registered. The
+declaration may explicitly indicate association with a particular
+namespace through the use of an \textit{NSSymbol}.
+
+\item \label{pr:STag} \(STag\;::=\;'\{0x1E\}'\;(ELFlags\;NSSymbol?)?\;ELSymbol\;attribute\!* \)
+
+This represents an element start tag. \textit{ELFlags} is an octet
+that has three status flag bits. \textit{NSSymbol} is a symbol for XML
+Namespace prefix. ELSymbol is the symbol for the element's
+identifier. This may be followed by any number of attributes or XML
+Namespace declarations (\textit{NSDecl}).
+
+\item \label{pr:ELFlags} \(ELFlags\;::=\; 0x32 - 0x3E \)
+
+This octet contains three status flags in its 2$^{nd}$, 3$^{rd}$ and
+4$^{th}$ least significant bits  to signify the following:
+\begin{enumerate}
+\item {\it Empty Element}: The second least significant bit of the
+  octet is set if the element is empty
+\item {\it Namespace Prefix}: The third least significant bit is set
+  if an {\it NSSymbol} follows
+\item {\it Close Previous}: If the fourth least significant bit is
+  set, it indicates that the last open element should be closed.
+\end{enumerate}
+The four most significant bits are \verb|0011|. Therefore this octet
+can have values between 0x30 and 0x3E. However, if all the flag bits
+are unset, the resultant value, 0x30, is never written. This value is
+used to indicate one or more closing tags (See production
+\ref{pr:ETag}).
+
+\item \label{pr:attribute} \(attribute\;::=\;ATAttribute\;|\;APAttribute \)
+
+Attributes may have unspecified values (\textit{ATAttribute}) or
+values that have been assigned symbols in the xqA specification
+(\textit{APAttribute}).
+
+\item \label{pr:ATAttribute} \(ATAttribute\;::=\;(('\{0x14\}'\;NSSymbol)\;|\;'{0x16}')\;ATSymbol\;Char*\;(Reference\;Char*)*\;'\{0x16\}' \)
+
+An attribute is started by the symbol 0x16, or by the symbol 0x14
+followed by an {\it NSSymbol}. The symbol for the attribute
+identifier, {\it ATSymbol}, comes next. The attribute is closed by the
+symbol 0x16. Any character data or references before the closing
+delimiter is taken to be the value of the attribute.
+
+\item \label{pr:APAttribute} \(APAttribute\;::=\;(('\{0x18\}'\;NSSymbol)\;|\;'{0x1A}')\;APSymbol\;VASymbol \)
+
+Attributes with predefined values begin with the symbol 0x18, or by
+the symbol 0x1A followed by an {\it NSSymbol}. \textit{APSymbol} is
+the symbol for the attribute identifier and \textit{VASymbol} is the
+symbol for it's value. These attributes are completely represented by
+symbols.
+
+For example, the xqML counterpart of \\
+\verb|<ufn:file path="/etc/issue.net" binary="no"/>|, where the
+attribute ``binary'' has enumerated values ``yes'' and ``no'',  would
+be:
+\begin{center} \verb*|      /etc/issue.net    | \end{center}
+Here we have six symbols, followed by the string ``/etc/issue.net''
+followed by four more symbols. The symbols would be:
+\begin{enumerate}
+\item 0x1E
+\item 0x36 (ELFlags, indicating an empty element and a namespace
+  prefix to follow)
+\item A document specific symbol for the namespace prefix ``ufn''
+\item The symbol for element identifier ``file''
+\item 0x16 -- to signify an attribute of type \textit{ATAttribute}
+\item The symbol for attribute identifier ``path''
+\end{enumerate}
+The value of ``path'' follows as char data. The next four symbols
+would be:
+\begin{enumerate}
+\item 0x16 -- to mark the end of attribute ``path''
+\item 0x1A -- to signify an attribute of type \textit{APAttribute}
+\item The symbol for attribute identifier ``binary''
+\item The symbol for attribute value ``no''
+\end{enumerate}
+
+\item \label{pr:content} \(content\;::=\;Char*\;((element\;|\;Reference\;|\;PI)\;Char*)* \)
+
+An element may contain character data and any number of child
+elements, references or character data in any order. Restrictions
+imposed by document type specifications (DTD, XML Schema etc.) may
+apply while validating.
+
+\item \label{pr:Reference} \(Reference\;::=\;EntityRef\;|\;CharRef \)
+
+\item \label{pr:EntityRef} \(EntityRef\;::=\;'\{0x22\}'\;ENSymbol \)
+
+This production matches an entity reference. ENSymbol is the symbol
+for the entity identifier, \emph{not} its expansion.
+
+\item \label{pr:CharRef} \(CharRef\;::=\;'\{0x1E\}\{0x26\}'\;VUint\; \)
+
+This production matches a Character Reference. {\it VUint} is a
+Variable-length Unsigned integer, whose value equals the code point of
+the desired character.
+
+\item \label{pr:ETag} \(ETag\;::=\;'\{0x1E\}\{0x30\}'\;ElementsToClose \)
+
+The closing tag has an octet \textit{ElementsToClose} which should be
+interpreted as the binary representation of an unsigned integer, whose
+value signifies the number of elements to close in correct (stack)
+order.
+
+\item \label{pr:PI} \(PI\;::=\;'\{0x1E\}\{0x20\}'\;PITarget\;'\{0x1E\}'\;PIContent\;'\{0x1E\}' \)
+
+This is a representation of an XML Processing
+Instruction. \textit{PITarget} is the equivalent of targets in XML
+PIs. \textit{PIContent} is the data that is passed on to the
+application. For example, a hypothetical SSI include directive for a
+web server may be written in XML as
+\verb|<?ssi includefile("headers.shtml")?>|. The xqML equivalent of
+this would be:
+\begin{center} \verb*|  ssi includefile("headers.shtml") | \end{center}
+where the symbols are 0x1E, 0x02, 0x1E and 0x1E in that order.
+
+\item \label{pr:PITarget} \(PITarget\;::=\;Char* \) 
+
+\item \label{pr:PIContent} \(PIContent\;::=\;Char* \)
+
+\item \label{pr:Char} \(Char\;::=\;0x09\;|\;0x0A\;|\;0x0D\;|\;[0x20-0xD7FF]\;|\;[0xE00-0xFFFD]\;|\;[0x10000-0x10FFFF] \)
+
+xqML characters are exactly same as XML characters. Additionaly, the
+characters `$<$', `$>$', `\verb|'|', `\verb|"|' and `\&' need not be
+escaped, unlike XML.
+
+\end{enumerate}

@@ -1,0 +1,231 @@
+%% Author: Tahir Hashmi
+%% 
+%% Copyright (C) 2002 2003, Xqueeze Developers
+%% 
+%% This file is part of Xqueeze Documentation
+%% 
+%% Permission is granted to copy, distribute and/or modify this
+%% document under the terms of the GNU Free Documentation License,
+%% Version 1.2 or any later version published by the Free Software
+%% Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+%% Back-Cover Texts. A copy of the license is included in LaTeX source
+%% format in the file entitled ``fdl.tex''.
+
+\documentclass[a4paper]{article}
+\usepackage{times}
+\usepackage[pdfborder=111,colorlinks=true]{hyperref}
+\input{variables.tex}
+\title{Xqueeze Specifications}
+\author{Tahir Hashmi}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{About this document}
+
+\subsection{Copying}
+\copyright{} 2003 Xqueeze Developers \\
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.2 or any later version published by the Free Software
+Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+Back-Cover Texts. A copy of the license is included in section
+\ref{section:gfdl} entitled ``GNU Free Documentation License''.
+
+\subsection{Availability}
+The latest version of this document can be downloaded from WWW by
+pointing your browser to: \\
+\href{http://xqueeze.sourceforge.net/xqueeze-specs.pdf}{http://xqueeze.sourceforge.net/xqueeze-specs.pdf}
+
+Draft versions of this document can be downloaded from the CVS
+Repository of Xqueeze project on Sourceforge.net by pointing your
+browser to: \\
+\href{http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/xqueeze/docs/}{http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/xqueeze/docs/}
+
+\subsection{Terms of Use}
+Usage of the \textbf{Specification} in this document for developing an
+\textbf{Implementation} is subject to the following terms and conditions:
+\begin{enumerate}
+\item An \textbf{Implementation} advertizing itself to be based on the
+  \textbf{Specification} should support the provisions of the
+  \textbf{Specification} in whole or partially, provided it also
+  fulfils condition 4.
+\item An \textbf{Implementation} advertizing itself to be conforming
+  to the Specification should put into effect the provisions of the
+  \textbf{Specification} in whole.
+\item The \textbf{Specifications} may be modified and re-distributed
+  according to the provisions of GNU FDL (\S \ref{section:gfdl}).
+\item An \textbf{Implementation} must not advertize itself to be based
+  on or conforming to the \textbf{Specification} if it is based on a
+  modification of the \textbf{Specification} unless such modifications
+  are also distributed under the terms of GNU FDL (\S
+  \ref{section:gfdl}) or compatible license.
+\item Items 1 through 4 of these terms of use only apply to
+  specifications and implementations that are distributed commercially
+  or non-commercially to the public.
+\end{enumerate}
+
+\subsubsection*{Glossary}
+\begin{description}
+\item [Specification] The document or documents as designated by the
+  Original Contributor that defines the form, interface and semantics
+  to the technology covered by the contents of the Specification.
+\item [Implementation] An implementation of the specification is a
+  program or set of programs that puts into effect the form, interface
+  and semantics defined by the Specification.
+\item [Modification] Any deletion, addition or alteration to the form,
+  interface or semantics defined by the Specification.
+\item [Original Contributor] The initiator of the Specification.
+\end{description}
+
+\section{xqML language}
+
+xqML is the binary markup language that is used by Xqueeze to achieve
+compact document sizes as compared to XML documents. xqML is
+structurally very similar to XML. The greatest contributors to xqML's
+compact nature are the elimination of redundant information and
+representation of XML identifiers (NMTOKENs) whose definitions are
+available in the DTD/Schema with binary \textit{xqML Symbols}.
+
+\subsection{xqML Symbols} \label{section:xqMLSymbols}
+\input{xqMLSymbols.tex}
+
+\input{reserved-symbols.tex}
+
+\subsection{xqML Grammar (Revision \xqMLver{})} \label{section:xqml-gram}
+\input{xqML-grammar.tex}
+
+\section{Xqueeze Association}
+
+Xqueeze uses an association between symbols and their corresponding
+XML identifiers and types as defined in a specification
+(DTD/Schema). This enables representation of known identifiers in the
+markup with symbols. Associating the type of an identifier along with
+it's name also makes it easy to various structural units of the
+document without having to use too many special characters and
+character-combinations.
+
+\subsection{Xqueeze Association Algorithm (Version \xqAalgo{})} \label{section:xqa-algo}
+\input{xqa-algo.tex}
+
+\subsection{Xqueeze Association Format (Version \xqAfmt{})} \label{section:xqa-fmt}
+\input{xqa-fmt.tex}
+
+\section{Changes}
+
+\subsection{xqML}
+\subsubsection{Revision 4} \label{subsubsection:changesRev4}
+\begin{itemize}
+\item xqML will now have ``Revisions'' instead of version numbers. The
+  current format can report a maximum of 255 revisions. However, this
+  does not imply that there will not be more than 255 revisions of
+  xqML
+\item Comments have now been dropped
+\item CDATA Sections have now been dropped
+\item The format now allows for generation of documents without prior
+  knowledge of schema through {\it Dynamic Associations} (\S{}
+  \ref{pr:RegId})
+\item The {\it xqMLDecl} represents xqML revision information in
+  binary now
+\item A new terminal {\it Rev} has been added
+\item {\it xqMLDecl} is now mandatory for all xqML documents
+\item All xqML documents have the value of special attribute
+  ``standalone'' as ``no''
+\item {\it ELFlags} production added to combine three flags related to
+  elements into one octet
+\item {\it ATAttribute} ends with `\{0x16\}' instead of
+  `\{0x1E\}\{0x16\}'
+\item A new terminal and xqML Symbol type, {\it VUint} has been added
+  (see \S{} \ref{section:xqMLSymbols})
+\item {\it CharRef} now uses VUint to encode the character's code
+  point value
+\item The production {\it EE\_STag} has been dropped
+\item {\it ETag} now uses `\{0x30\}' instead of `\{0x3E\}'.
+\end{itemize}
+\subsubsection{Version 0.3}
+\begin{itemize}
+\item Anything is permissible upto the occurrence of \textit{xqMLDecl}
+  in a document
+\item A new production, \textit{PI}, has been added for Processing
+  Instructions
+\item \textit{doctypedecl} now starts with `\{0x1E\}\{0x2C\}' instead
+  of `\{0x1E\}\{0x12\}'
+\item \textit{xqA} should necessarily include a prolog now
+\item \textit{doctypedecl} may now have an inline DTD with a new
+  production \textit{DTDSect}.
+\item \textit{element} production was erroneous till the last
+  version
+\item A new prodcution \textit{NSPrefix} has been added for XML
+  Namespace prefixes
+\item The productions \textit{EE\_STag}, \textit{STag},
+  \textit{ATAttribute}, \textit{APAttribute} and \textit{EntityRef}
+  can now have namespace prefixes
+\item \textit{EE\_STag} starts with `\{0x1E\}\{0x2A\}' instead of
+  `\{0x1E\}'
+\item \textit{ATAttribute} starts with `\{0x16\}' instead of
+  `\{0x1E\}'
+\item \textit{APAttribute} starts with `\{0x18\}' instead of
+  `\{0x1E\}'
+\item \textit{EntityRef} starts with `\{0x1E\}\{0x24\}' instead of
+  `\{0x1E\}'
+\item \textit{CDSect} starts with `\{0x1E\}\{0x28\}' instead of
+  \textit{CDDelim} and ends with `\{0x1E\}' instead of
+  \textit{CDDelim} (\{0x1E\}\{0x14\}).
+\item \textit{Char} now matches the \textit{Char} production in XML
+  1.0 grammar specification.
+\end{itemize}
+\subsubsection{Version 0.2}
+\begin{itemize}
+\item xqML Symbol `\{0x1E\}' replaces `$<$' for the latter's role in
+  xqML markup
+\item \textit{Attribute} is split into \textit{ATAttribute} and
+  \textit{APAttribute}, together referred as \textit{attribute}.
+\item \textit{ATAttribute} can contain \textit{Reference}.
+\item \textit{ATAttribute} is terminated by `\{0x1E\}\{0x16\}' instead of
+  `$<$'
+\item \textit{CharRef} starts with `\{0x1E\}\{0x26\}' instead of
+  `\&\{0x26\}'
+\item \textit{CharRef} ends with `\{0x1E\}'. Earlier there was no
+  end-marker
+\item \textit{Comment} ends with `\{0x1E\}' instead of \textit{ETag?}
+\item \textit{Comment} is deprecated
+\item \textit{Char} is a terminal that matches any printable character
+\item \textit{Num} does not contain `.'
+\end{itemize}
+\subsubsection{Version 0.1}
+First Release
+
+\subsection{Xqueeze Association algorithm}
+\subsubsection{Version 0.2}
+\begin{itemize}
+\item Removed distinction of identifiers based on type
+\item Added support for Dynamic Associations
+\end{itemize}
+\subsubsection{Version 0.1}
+First Release
+
+\subsection{Xqueeze Association format}
+\subsubsection{Version 0.3}
+\begin{itemize}
+\item Removed section markers
+\item xqA specification now ends with the sequence `\{0x1E\}\{0x40\}'
+  instead of `\{0x1E\}\{0x3C\}'.
+\end{itemize}
+\subsubsection{Version 0.2}
+\begin{itemize}
+\item xqML Symbol `\{0x1E\}' replaces `$<$' for the latter's role in
+  xqA format.
+\item The prolog format has been changed to resemble an xqML PI.
+\item Reserved symbols used in the previous version have been shifted
+  44 decimal values up. For example, the symbol for Element section is
+  now `\{0x30\}' (48) instead of `\{0x04\}' (04).
+\end{itemize}
+\subsubsection{Version 0.1}
+First Release
+
+\section{GNU Free Documentation License} \label{section:gfdl}
+\begin{scriptsize}
+\input{fdl.tex}
+\end{scriptsize}
+
+\end{document}
